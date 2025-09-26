@@ -25,6 +25,8 @@ Thumbs.db
 # Project-specific
 .cache/
 .claude/
+!.claude/settings.json
+!.claude/precommit.sh
 
 # Environment variables
 .env
