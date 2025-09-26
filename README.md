@@ -80,7 +80,7 @@ uv run pr_review.py --no-cache https://github.com/owner/repo/pull/456
 uv run pr_review.py --model gpt-5 https://github.com/owner/repo/pull/456
 
 # Combine options
-uv run pr_review.py --model claude-opus-4.1 --dry-run --no-cache https://github.com/owner/repo/pull/456
+uv run pr_review.py --model anthropic:claude-opus-4-1 --dry-run --no-cache https://github.com/owner/repo/pull/456
 ```
 
 ## How It Works
