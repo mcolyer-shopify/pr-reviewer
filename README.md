@@ -77,10 +77,10 @@ uv run pr_review.py --dry-run https://github.com/owner/repo/pull/456
 uv run pr_review.py --no-cache https://github.com/owner/repo/pull/456
 
 # Use a different model
-uv run pr_review.py --model gpt-4 https://github.com/owner/repo/pull/456
+uv run pr_review.py --model gpt-5 https://github.com/owner/repo/pull/456
 
 # Combine options
-uv run pr_review.py --model claude-3-5-sonnet --dry-run --no-cache https://github.com/owner/repo/pull/456
+uv run pr_review.py --model claude-opus-4.1 --dry-run --no-cache https://github.com/owner/repo/pull/456
 ```
 
 ## How It Works
