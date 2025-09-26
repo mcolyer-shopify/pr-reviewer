@@ -58,6 +58,7 @@ uv run pr_review.py https://github.com/owner/repo/pull/123
 
 - `--no-cache`: Disable caching and force fresh review
 - `--dry-run`: Generate review but don't post to GitHub
+- `--model MODEL`: AI model to use for review (default: google:gemini-2.5-pro)
 
 ### Examples
 
@@ -74,6 +75,12 @@ uv run pr_review.py --dry-run https://github.com/owner/repo/pull/456
 
 # Force fresh review (ignore cache)
 uv run pr_review.py --no-cache https://github.com/owner/repo/pull/456
+
+# Use a different model
+uv run pr_review.py --model gpt-4 https://github.com/owner/repo/pull/456
+
+# Combine options
+uv run pr_review.py --model claude-3-5-sonnet --dry-run --no-cache https://github.com/owner/repo/pull/456
 ```
 
 ## How It Works

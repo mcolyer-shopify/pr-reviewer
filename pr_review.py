@@ -121,8 +121,10 @@ class PRReviewer:
                 return data.get('review')
         return None
 
-    async def review_pr(self, pr_data: dict) -> str:
-        """Send PR data to Shopify proxy for review."""
+    async def review_pr(
+        self, pr_data: dict, model: str = 'google:gemini-2.5-pro'
+    ) -> str:
+        """Send PR data to AI service for review."""
         prompt = self.load_prompt()
 
         # Prepare context data
@@ -132,8 +134,8 @@ class PRReviewer:
         )
 
         system_message = prompt
-        repo_url = pr_info.get('url', '').split('/pull/')[0].replace(
-            'https://github.com/', ''
+        repo_url = (
+            pr_info.get('url', '').split('/pull/')[0].replace('https://github.com/', '')
         )
         user_message = f"""
 Repository: {repo_url}
@@ -148,11 +150,11 @@ Diff:
 {pr_data['diff']}
 """
 
-        console.print('[cyan]Sending PR for review...[/cyan]')
+        console.print(f'[cyan]Sending PR for review using {model}...[/cyan]')
 
         try:
             response = await self.client.chat.completions.create(
-                model='google:gemini-2.5-pro',
+                model=model,
                 messages=[
                     {'role': 'system', 'content': system_message},
                     {'role': 'user', 'content': user_message},
@@ -204,7 +206,12 @@ Diff:
 @click.option(
     '--dry-run', is_flag=True, help="Generate review but don't post to GitHub"
 )
-def main(pr_url: str, cache: bool, dry_run: bool):
+@click.option(
+    '--model',
+    default='google:gemini-2.5-pro',
+    help='AI model to use for review (default: google:gemini-2.5-pro)',
+)
+def main(pr_url: str, cache: bool, dry_run: bool, model: str):
     """Review a GitHub Pull Request using AI.
 
     PR_URL should be a full GitHub PR URL like:
@@ -242,7 +249,7 @@ def main(pr_url: str, cache: bool, dry_run: bool):
             # Generate review if not cached
             if not review:
                 task = progress.add_task('Generating AI review...', total=None)
-                review = asyncio.run(reviewer.review_pr(pr_data))
+                review = asyncio.run(reviewer.review_pr(pr_data, model))
                 progress.update(task, description='Review generated')
 
                 # Save to cache
